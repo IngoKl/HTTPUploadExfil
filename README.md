@@ -27,6 +27,8 @@ Aside from uploading files, you can also use `HTTPUploadExfil` to exfiltrate dat
 
 Hence, you can exfiltrate data using the header of the request. It's easiest to use GET parameters (e.g., `?data=...`), but there are other options.
 
+![HTTPUploadExfil](https://github.com/IngoKl/HTTPUploadExfil/blob/main/media/example-1.png?raw=true)
+
 By default, `HTTPUploadExfil` will be served on port 8080. All files will be written to the current directory.
 
 `./httpuploadexfil`
@@ -36,8 +38,6 @@ You can also provide some arguments:
 `./httpuploadexfil :1337 /home/kali/loot`
 
 The first argument is a bind address, the second one the folder to store files in.
-
-![HTTPUploadExfil][example-1.png]
 
 ### Endpoints
 
