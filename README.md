@@ -60,3 +60,4 @@ Of course, we can also use `curl` to exfil files:
 ## ToDo
 
 * Implement an HTTPs version (Transport Encryption)
+* Add download option (i.e., provide `python3 -m http.server` functionality)
