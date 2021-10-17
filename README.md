@@ -4,7 +4,7 @@
 
 Think of this as `python3 -m http.server` but for getting data off a machine instead of on the machine.
 
-Obviously, this is a **very loud** and **somewhat restricted** way of exfiltrating data. Nevertheless, it's quite handy and somewhat easier than, for example, using SMB or FTP. If you are looking for something more elegant, have a look at, for example, [`dnsteal`](https://github.com/m57/dnsteal).
+Obviously, this is a **very loud** and **somewhat restricted** way of exfiltrating data. Nevertheless, it's quite handy and somewhat easier than, for example, using SMB or FTP. If you are looking for something more elegant, have a look at, for example, [`dnsteal`](https://github.com/m57/dnsteal) or [`PyExfil`](https://github.com/ytisf/PyExfil).
 
 **TL;DR**
 
