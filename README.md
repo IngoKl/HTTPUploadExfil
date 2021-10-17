@@ -15,7 +15,7 @@ Obviously, this is a **very loud** and **somewhat restricted** way of exfiltrati
 
 ## Building and Developing
 
-It's trivial to build this tool.
+While there are binaries available, it's absolutely recommended to **build this on your own**. This way, you will have the newest version, and you will also know exactly what you're running. The process is trivial:
 
 Simply run `go build` within the folder, and you should get an `httpuploadexfil` executable for your platform.
 
