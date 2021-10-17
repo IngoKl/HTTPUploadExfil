@@ -13,11 +13,13 @@ Obviously, this is a **very loud** and **somewhat restricted** way of exfiltrati
 3) Access `http://YOUR_IP:1337/` on the machine you need to exfiltrate data from.
 4) Find your uploaded files in `/home/kali/loot`.
 
-## Building
+## Building and Developing
 
-It's trivial to build this tool. 
+It's trivial to build this tool.
 
 Simply run `go build` within the folder, and you should get an `httpuploadexfil` executable for your platform.
+
+If you make changes to the tool, remember to format using `go fmt main.go`.
 
 ## Usage
 
@@ -39,13 +41,27 @@ You can also provide some arguments:
 
 The first argument is a bind address, the second one the folder to store files in.
 
+The tool will also expose the files in the loot directory under the `/l` endpoint. This can be used as an easy way to bring files onto the target.
+
 ### Endpoints
 
-The webserver exposes three endpoints for you to use:
+The webserver exposes four endpoints for you to use:
 
 1) `/` (GET) is the upload form.
 2) `/p` (POST) takes the data from the upload form. It requires a `multipart/form-data` request with the `file` field filled.
 3) `/g` (GET) will take any GET request and store the full request on the server.
+4) `/l` (GET) will provide access to files in the specified folder (Directory Listing). This is to provide basic `python3 -m http.server` functionality.
+
+### HTTPs Mode
+
+`HTTPUploadExfil` can also be used in HTTPs mode. To do so, simply place a `HTTPUploadExfil.csr` and `HTTPUploadExfil.key` file next to the binary. These can be, for example, generated as follows:
+
+```bash
+openssl req -new -newkey rsa:2048 -nodes -keyout HTTPUploadExfil.key -out HTTPUploadExfil.csr
+openssl x509 -req -days 365 -in HTTPUploadExfil.csr -signkey HTTPUploadExfil.key -out HTTPUploadExfil.csr
+```
+
+If the servers sees a `HTTPUploadExfil.csr` file, it will try to start in HTTPs mode. To go back to HTTP, simply remove or rename the certificate files.
 
 ### Shell
 
@@ -59,5 +75,5 @@ Of course, we can also use `curl` to exfil files:
 
 ## ToDo
 
-* Implement an HTTPs version (Transport Encryption)
-* Add download option (i.e., provide `python3 -m http.server` functionality)
+- [X] Implement an HTTPs version (Transport Encryption)
+- [X] Add download option (i.e., provide `python3 -m http.server` functionality)
