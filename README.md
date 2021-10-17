@@ -6,12 +6,14 @@ Think of this as `python3 -m http.server` but for getting data off a machine ins
 
 Obviously, this is a **very loud** and **somewhat restricted** way of exfiltrating data. Nevertheless, it's quite handy and somewhat easier than, for example, using SMB or FTP. If you are looking for something more elegant, have a look at, for example, [`dnsteal`](https://github.com/m57/dnsteal) or [`PyExfil`](https://github.com/ytisf/PyExfil).
 
-**TL;DR**
+## TL;DR
 
 1) Build the tool using `go build`.
 2) Run `./httpuploadexfil :1337 /home/kali/loot` on your machine.
 3) Access `http://YOUR_IP:1337/` on the machine you need to exfiltrate data from.
 4) Find your uploaded files in `/home/kali/loot`.
+
+If you need HTTPs, look at the information below.
 
 ## Building and Developing
 
