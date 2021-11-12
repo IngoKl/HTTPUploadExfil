@@ -1,5 +1,10 @@
 # HTTPUploadExfil
 
+![HTTPUploadExfil](https://github.com/IngoKl/HTTPUploadExfil/blob/main/media/HTTPUploadExfil.png?raw=true)
+
+![MIT License](https://img.shields.io/github/license/IngoKl/HTTPUploadExfil?style=flat-square)
+![GitHub stars](https://img.shields.io/github/stars/IngoKl/HTTPUploadExfil?style=flat-square)
+
 `HTTPUploadExfil` is a (very) simple HTTP server written in Go that's useful for getting files (and other information) off a machine using HTTP. While there are many use-cases, it's meant to be used in **low-stakes offensive scenarios** (e.g., CTFs).
 
 Think of this as `python3 -m http.server` but for getting data off a machine instead of on the machine.
