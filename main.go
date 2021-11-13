@@ -97,6 +97,7 @@ func ascii_art() {
 
 	fmt.Print(ascii)
 	fmt.Printf("\n")
+	fmt.Println("Version: 2021-11-13")
 	fmt.Println("Usage: ./httpuploadexfil :8080 /home/kali/exfil")
 	fmt.Printf("\n")
 }

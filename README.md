@@ -30,6 +30,8 @@ Simply run `go build` within the folder, and you should get an `httpuploadexfil`
 
 If you make changes to the tool, remember to format using `go fmt main.go`.
 
+Alternatively, you can also use `make` to build the tool. You can also run `make cert` to generate SSL certificates (see below).
+
 ## Usage
 
 The most common use case would be to run the server on *Machine A*. Now, on *Machine B* you access the upload form using a browser and select a file to exfiltrate. Of course, as you can see below, this can also be done using, for example, `curl`.
@@ -70,6 +72,8 @@ openssl req -new -newkey rsa:2048 -nodes -keyout HTTPUploadExfil.key -out HTTPUp
 openssl x509 -req -days 365 -in HTTPUploadExfil.csr -signkey HTTPUploadExfil.key -out HTTPUploadExfil.csr
 ```
 
+To do this, you can also run `make cert`.
+
 If the servers sees a `HTTPUploadExfil.csr` file, it will try to start in HTTPs mode. To go back to HTTP, simply remove or rename the certificate files.
 
 ### Shell
@@ -86,3 +90,4 @@ Of course, we can also use `curl` to exfil files:
 
 - [X] Implement an HTTPs version (Transport Encryption)
 - [X] Add download option (i.e., provide `python3 -m http.server` functionality)
+- [ ] Build system (especially cross compilation for Windows and Linux)
