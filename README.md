@@ -22,6 +22,8 @@ Obviously, this is a **very loud** and **somewhat restricted** way of exfiltrati
 
 If you need HTTPs, look at the information below.
 
+You can also [download binaries](https://github.com/IngoKl/HTTPUploadExfil/releases) for Linux and Windows from GitHub. These binaries, however, aren't necessarily representative of the most recent changes.
+
 ## Building and Developing
 
 While there are binaries available, it's absolutely recommended to **build this on your own**. This way, you will have the newest version, and you will also know exactly what you're running. The process is trivial:
