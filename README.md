@@ -1,7 +1,7 @@
 # HTTPUploadExfil
 
 <p align="center">
-  <img alt="HTTPUploadExfil Logo" height="200" src="https://github.com/IngoKl/HTTPUploadExfil/blob/main/media/HTTPUploadExfil.png?raw=true"/>
+  <img alt="HTTPUploadExfil Logo" src="https://github.com/IngoKl/HTTPUploadExfil/blob/main/media/HTTPUploadExfil.png?raw=true"/>
 </p>
 
 ![MIT License](https://img.shields.io/github/license/IngoKl/HTTPUploadExfil?style=flat-square)
