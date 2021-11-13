@@ -18,3 +18,7 @@ vendor/
 *.csr
 *.key
 *.txt
+
+# Binaries
+*.exe
+httpuploadexfil
