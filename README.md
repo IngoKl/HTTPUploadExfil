@@ -52,6 +52,10 @@ You can also provide some arguments:
 
 `./httpuploadexfil :1337 /home/kali/loot`
 
+If you need request logging, pass the `-log` flag like:
+
+`./httpuploadexfil -log`
+
 The first argument is a bind address, the second one the folder to store files in.
 
 The tool will also expose the files in the loot directory under the `/l` endpoint. This can be used as an easy way to bring files onto the target.
@@ -92,4 +96,5 @@ Of course, we can also use `curl` to exfil files:
 
 - [X] Implement an HTTPs version (Transport Encryption)
 - [X] Add download option (i.e., provide `python3 -m http.server` functionality)
+- [X] Add logging functionality for requests
 - [ ] Build system (especially cross compilation for Windows and Linux)

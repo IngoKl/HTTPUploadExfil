@@ -4,6 +4,8 @@
 *.dll
 *.so
 *.dylib
+*.exe
+httpuploadexfil
 
 # Test binary, built with `go test -c`
 *.test
@@ -18,7 +20,8 @@ vendor/
 *.csr
 *.key
 *.txt
+*.go.tmp.*
 
-# Binaries
-*.exe
-httpuploadexfil
+# IDE specific files
+.vscode/
+.claude/

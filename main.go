@@ -1,8 +1,10 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 	"path"
@@ -12,6 +14,7 @@ import (
 
 var storageFolder string = ""
 var addr string = ":8080"
+var logRequests bool = false
 var form string = `<!DOCTYPE html>
 <html lang="en">
    <head>
@@ -27,7 +30,16 @@ var form string = `<!DOCTYPE html>
    </body>
 </html>`
 
+func logRequest(req *http.Request, endpoint string) {
+	if logRequests {
+		log.Printf("[REQUEST] %s %s %s - User-Agent: %s - Remote: %s",
+			req.Method, endpoint, req.URL.String(), req.UserAgent(), req.RemoteAddr)
+	}
+}
+
 func exfilGet(w http.ResponseWriter, req *http.Request) {
+	logRequest(req, "/g")
+	
 	// We could also check for req.Header.Get("X-REAL-IP") or "X-FORWARDED-FOR" (better with proxies)
 	host := strings.Split(req.RemoteAddr, ":")
 
@@ -46,10 +58,12 @@ func exfilGet(w http.ResponseWriter, req *http.Request) {
 }
 
 func uploadForm(w http.ResponseWriter, req *http.Request) {
+	logRequest(req, "/")
 	fmt.Fprint(w, form)
 }
 
 func uploadFile(w http.ResponseWriter, r *http.Request) {
+	logRequest(r, "/p")
 
 	file, handler, err := r.FormFile("file")
 	if err != nil {
@@ -66,7 +80,14 @@ func uploadFile(w http.ResponseWriter, r *http.Request) {
 	ioutil.WriteFile(path.Join(storageFolder, handler.Filename), fileBytes, 0644)
 
 	fmt.Fprintf(w, "Done\n")
-	fmt.Printf("[*] File Uploaded (%s)\n", handler.Filename)
+	fmt.Printf("[+] File Uploaded (%s)\n", handler.Filename)
+}
+
+func loggedFileServer(fs http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		logRequest(r, "/l")
+		fs.ServeHTTP(w, r)
+	})
 }
 
 func setupRoutes() {
@@ -74,13 +95,15 @@ func setupRoutes() {
 	http.HandleFunc("/p", uploadFile)
 	http.HandleFunc("/g", exfilGet)
 
-	// Directory Listing
-	http.Handle("/l/", http.StripPrefix("/l", http.FileServer(http.Dir(storageFolder))))
+	// Directory Listing with logging
+	http.Handle("/l/", loggedFileServer(http.StripPrefix("/l", http.FileServer(http.Dir(storageFolder)))))
 
 	//HTTP or HTTPs
 	if _, err := os.Stat("HTTPUploadExfil.csr"); err == nil {
+		fmt.Println("[+] Starting in HTTPs mode")
 		http.ListenAndServeTLS(addr, "HTTPUploadExfil.csr", "HTTPUploadExfil.key", nil)
 	} else {
+		fmt.Println("[+] Starting in HTTP mode")
 		http.ListenAndServe(addr, nil)
 	}
 }
@@ -97,16 +120,20 @@ func ascii_art() {
 
 	fmt.Print(ascii)
 	fmt.Printf("\n")
-	fmt.Println("Version: 2021-11-13")
-	fmt.Println("Usage: ./httpuploadexfil :8080 /home/kali/exfil")
+	fmt.Println("Version: 2025-07-27")
+	fmt.Println("Usage: ./httpuploadexfil [-log] :8080 /home/kali/exfil")
+	fmt.Println("	-log: Enable HTTP request logging")
 	fmt.Printf("\n")
 }
 
 func main() {
+	flag.BoolVar(&logRequests, "log", false, "Enable HTTP request logging")
+	flag.Parse()
 
 	ascii_art()
 
-	if len(os.Args) <= 2 {
+	args := flag.Args()
+	if len(args) <= 1 {
 		storageFolder, err := os.Getwd()
 		if err != nil {
 			fmt.Println(err)
@@ -116,8 +143,8 @@ func main() {
 		fmt.Println("[+] Server Running")
 		fmt.Printf("[+] Default Settings: Addr '%s'; Folder '%s'\n", addr, storageFolder)
 	} else {
-		addr = os.Args[1]
-		storageFolder = os.Args[2]
+		addr = args[0]
+		storageFolder = args[1]
 
 		if _, err := os.Stat(storageFolder); os.IsNotExist(err) {
 			err := os.Mkdir(storageFolder, 0755)
@@ -129,6 +156,10 @@ func main() {
 
 		fmt.Println("[+] Server Running")
 		fmt.Printf("[+] Settings: Addr '%s'; Folder '%s'\n", addr, storageFolder)
+	}
+
+	if logRequests {
+		fmt.Println("[+] HTTP request logging enabled")
 	}
 
 	setupRoutes()
